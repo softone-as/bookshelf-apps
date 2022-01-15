@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bookshelf - Book List</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Bookshelf</h1>
+      <div class="nav-items">
+        <a href="index.html">Home</a>
+        <a href="book-list.html">List Books</a>
+        <a href="add-book.html">Add Book</a>
+      </div>
+    </header>
+
+    <form class="form" action="#" id="form" hidden></form>
+
+    <div class="wrapper">
+      <h1>Daftar Buku</h1>
+      <div class="container">
+        <h2 class="container-header">Belum dibaca</h2>
+        <div class="list-item" id="books"></div>
+      </div>
+
+      <div class="container">
+        <h2 class="container-header">Selesai dibaca</h2>
+        <div class="list-item" id="completed-books"></div>
+      </div>
+    </div>
+
+    <script src="js/data.js" type="text/javascript"></script>
+    <script src="js/dom.js" type="text/javascript"></script>
+    <script src="js/script.js" type="text/javascript"></script>
+  </body>
+</html>

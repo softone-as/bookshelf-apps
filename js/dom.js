@@ -17,6 +17,7 @@ function addBook() {
 
   uncompletedBookList.append(book);
   updateDataToStorage();
+  document.getElementById("form").reset();
 }
 
 function makeBook(titleBook, authorBook, yearBook, isCompleted) {
@@ -27,6 +28,7 @@ function makeBook(titleBook, authorBook, yearBook, isCompleted) {
   textAuthor.innerText = authorBook;
 
   const textYear = document.createElement("p");
+  textYear.className = "year";
   textYear.innerText = yearBook;
 
   const textContainer = document.createElement("div");
@@ -61,15 +63,15 @@ function createButton(buttonTypeClass, eventListener) {
 function addBookToCompleted(bookElement) {
   const bookTitle = bookElement.querySelector(".inner > h2").innerText;
   const bookAuthor = bookElement.querySelector(".inner > p").innerText;
-  const bookYear = bookElement.querySelector(".inner > p").innerText;
+  const bookYear = bookElement.querySelector(".inner > p.year").innerText;
 
   const listCompleted = document.getElementById(COMPLETED_BOOK_ID);
 
   const newBook = makeBook(bookTitle, bookAuthor, bookYear, true);
   const book = findBook(bookElement[BOOK_ITEMID]);
-  book.isCompleted = true;
+  // book.isCompleted = true;
   newBook[BOOK_ITEMID] = book.id;
-
+  // console.log(newBook);
   listCompleted.append(newBook);
   bookElement.remove();
 
@@ -100,12 +102,12 @@ function undoBookFromCompleted(bookElement) {
   const listUncompleted = document.getElementById(UNCOMPLETED_BOOK_ID);
   const bookTitle = bookElement.querySelector(".inner > h2").innerText;
   const bookAuthor = bookElement.querySelector(".inner > p").innerText;
-  const bookYear = bookElement.querySelector(".inner > p").innerText;
+  const bookYear = bookElement.querySelector(".inner > p.year").innerText;
 
   const newBook = makeBook(bookTitle, bookAuthor, bookYear, false);
 
   const book = findBook(bookElement[BOOK_ITEMID]);
-  book.isCompleted = false;
+  // book.isCompleted = false;
   newBook[BOOK_ITEMID] = book.id;
 
   listUncompleted.append(newBook);
