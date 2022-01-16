@@ -69,13 +69,12 @@ function addBookToCompleted(bookElement) {
 
   const newBook = makeBook(bookTitle, bookAuthor, bookYear, true);
   const book = findBook(bookElement[BOOK_ITEMID]);
-  // book.isCompleted = true;
+  book.isCompleted = true;
   newBook[BOOK_ITEMID] = book.id;
-  // console.log(newBook);
   listCompleted.append(newBook);
-  bookElement.remove();
-
   updateDataToStorage();
+
+  bookElement.remove();
 }
 
 function createCheckButton() {
@@ -84,7 +83,7 @@ function createCheckButton() {
   });
 }
 
-function removeBookFromCompleted(bookElement) {
+function removeBook(bookElement) {
   const bookPosition = findBookIndex(bookElement[BOOK_ITEMID]);
   books.splice(bookPosition, 1);
 
@@ -94,7 +93,7 @@ function removeBookFromCompleted(bookElement) {
 
 function createTrashButton() {
   return createButton("trash-button", function (event) {
-    removeBookFromCompleted(event.target.parentElement);
+    confirmDelete();
   });
 }
 
@@ -107,7 +106,7 @@ function undoBookFromCompleted(bookElement) {
   const newBook = makeBook(bookTitle, bookAuthor, bookYear, false);
 
   const book = findBook(bookElement[BOOK_ITEMID]);
-  // book.isCompleted = false;
+  book.isCompleted = false;
   newBook[BOOK_ITEMID] = book.id;
 
   listUncompleted.append(newBook);
@@ -121,3 +120,28 @@ function createUndoButton() {
     undoBookFromCompleted(event.target.parentElement);
   });
 }
+
+function confirmDelete() {}
+const modal = document.getElementById("confirmModal");
+const trashButton = document.getElementsByClassName("trash-button");
+const cancelButton = document.getElementsByClassName("btn-cancel");
+const deleteButton = document.getElementsByClassName("btn-cancel");
+console.log(trashButton);
+console.log(modal);
+trashButton.onclick = function () {
+  modal.style.display = "block";
+};
+
+deleteButton.onclick = function () {
+  removeBook();
+};
+
+cancelButton.onclick = function () {
+  modal.style.display = "none";
+};
+
+window.onclick = function (event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+};

@@ -7,6 +7,8 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   if (isStorageExist()) loadDataFromStorage();
+
+  const confirmModal = document.getElementById("confirmModal");
 });
 
 document.addEventListener("ondatasaved", () => {

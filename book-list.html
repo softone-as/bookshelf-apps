@@ -19,8 +19,31 @@
 
     <form class="form" action="#" id="form" hidden></form>
 
+    <div id="confirmModal" class="confirmModal">
+      <div class="modal-content">
+        <div class="modal-body">
+          <p>Are you sure want to delete this book?</p>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-cancel">Cancel</button>
+          <button class="btn btn-delete">Yes, delete it!</button>
+        </div>
+      </div>
+    </div>
+
     <div class="wrapper">
       <h1>Daftar Buku</h1>
+      <div class="container search">
+        <form action="#" onkeyup="searchBook()">
+          <input
+            type="text"
+            id="search"
+            name="search"
+            placeholder="Temukan buku yang ingin dicari.."
+            width="100%"
+          />
+        </form>
+      </div>
       <div class="container">
         <h2 class="container-header">Belum dibaca</h2>
         <div class="list-item" id="books"></div>

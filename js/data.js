@@ -78,3 +78,21 @@ function refreshDataFromBooks() {
     }
   }
 }
+
+function searchBook() {
+  const input = document.getElementById("search");
+  const filter = input.value.toUpperCase();
+  const div = document.getElementsByClassName("item shadow");
+  const value = document.getElementsByClassName("inner");
+
+  for (let i = 0; i < value.length; i++) {
+    const res = value[i].getElementsByTagName("h2")[0];
+    txtValue = res.textContent || res.innerText;
+    console.log(txtValue);
+    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+      div[i].style.display = "";
+    } else {
+      div[i].style.display = "none";
+    }
+  }
+}
