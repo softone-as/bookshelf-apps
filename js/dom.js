@@ -41,9 +41,11 @@ function makeBook(titleBook, authorBook, yearBook, isCompleted) {
 
   if (isCompleted) {
     container.append(createUndoButton());
+    container.append(createEditButton());
     container.append(createTrashButton());
   } else {
     container.append(createCheckButton());
+    container.append(createEditButton());
     container.append(createTrashButton());
   }
 
@@ -83,12 +85,11 @@ function createCheckButton() {
   });
 }
 
-function removeBook(bookElement) {
-  const bookPosition = findBookIndex(bookElement[BOOK_ITEMID]);
+function removeBook() {
+  const bookPosition = findBookIndex(book.id);
   books.splice(bookPosition, 1);
-
-  bookElement.remove();
   updateDataToStorage();
+  window.location.reload();
 }
 
 function createTrashButton() {
@@ -121,27 +122,65 @@ function createUndoButton() {
   });
 }
 
-function confirmDelete() {}
-const modal = document.getElementById("confirmModal");
-const trashButton = document.getElementsByClassName("trash-button");
-const cancelButton = document.getElementsByClassName("btn-cancel");
-const deleteButton = document.getElementsByClassName("btn-cancel");
-console.log(trashButton);
-console.log(modal);
-trashButton.onclick = function () {
+function createEditButton() {
+  document.dispatchEvent(new Event("ondataedited"));
+  return createButton("edit-button", function (event) {
+    toEditBook(event.target.parentElement);
+  });
+}
+
+function confirmDelete() {
+  const book = findBook(event.target.parentElement[BOOK_ITEMID]);
+  const parsed = JSON.stringify(book);
+  sessionStorage.setItem("book", parsed);
+
+  const dom = event.target.parentElement;
+  sessionStorage.setItem("dom", dom.innerHTML);
+
+  const modal = document.getElementById("confirmModal");
+  const cancelButton = document.getElementById("btn-cancel");
+  const deleteButton = document.getElementById("btn-delete");
+
   modal.style.display = "block";
-};
 
-deleteButton.onclick = function () {
-  removeBook();
-};
-
-cancelButton.onclick = function () {
-  modal.style.display = "none";
-};
-
-window.onclick = function (event) {
-  if (event.target == modal) {
+  deleteButton.onclick = function () {
+    removeBook();
     modal.style.display = "none";
-  }
-};
+  };
+
+  cancelButton.onclick = function () {
+    modal.style.display = "none";
+  };
+
+  window.onclick = function (event) {
+    if (event.target == modal) {
+      modal.style.display = "none";
+    }
+  };
+}
+
+function toEditBook(bookElement) {
+  const book = findBook(bookElement[BOOK_ITEMID]);
+  const parsed = JSON.stringify(book);
+  sessionStorage.setItem("book", parsed);
+  window.location.href = "edit-book.html";
+}
+
+function editBook(bookId) {
+  const titleBook = document.getElementById("edit_title").value;
+  const authorBook = document.getElementById("edit_author").value;
+  const yearBook = document.getElementById("edit_year").value;
+
+  const editedBooks = books.map((item) => {
+    var temp = Object.assign({}, item);
+    if (temp.id === bookId) {
+      temp.title = titleBook;
+      temp.author = authorBook;
+      temp.year = yearBook;
+    }
+    return temp;
+  });
+
+  books.splice(0, books.length, ...editedBooks);
+  updateDataToStorage();
+}
